@@ -1,9 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Login } from './pages/login';
+import { Login } from './pages/Login';
+import { Chat } from './pages/Chat';
 
-export const router = createBrowserRouter([
+export const routes = [
   {
     path: "/",
-    element: <Login />,
+    element: <Login/>,
   },
-]);
+  {
+    path: "/chat",
+    element: <Chat />,
+  },
+]
