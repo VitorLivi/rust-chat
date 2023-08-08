@@ -11,16 +11,16 @@ export const MenuItemLayout = styled.div`
   transition: 0.2s;
 
   &:hover {
-    background-color: #0ef002;
     color: black;
   }
 `
 
 export const MenuItemSelected = styled.span`
   position: absolute;
-  left: 20px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 20px;
 `
 
 export const MenuItemText = styled.span`
