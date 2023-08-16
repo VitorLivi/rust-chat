@@ -44,7 +44,7 @@ impl WsChatSession {
                 // notify chat server
                 act.addr.do_send(server::Disconnect { id: act.id });
 
-                 // stop actor
+                // stop actor
                 ctx.stop();
 
                 // don't try to send a ping

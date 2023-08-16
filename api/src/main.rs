@@ -7,18 +7,14 @@ use std::{
 };
 
 use actix::*;
-use actix_files::{Files, NamedFile};
+use actix_files as fs;
 use actix_web::{
-    middleware::Logger, web, App, Error, HttpRequest, HttpResponse, HttpServer, Responder,
+    middleware::Logger, web, App, Error, HttpRequest, HttpResponse, HttpServer, Responder, Result,
 };
 use actix_web_actors::ws;
-
+use std::path::PathBuf;
 mod server;
 mod session;
-
-async fn index() -> impl Responder {
-    NamedFile::open_async("./static/index.html").await.unwrap()
-}
 
 /// Entry point for our websocket route
 async fn chat_route(
@@ -45,6 +41,12 @@ async fn get_count(count: web::Data<AtomicUsize>) -> impl Responder {
     format!("Visitors: {current_count}")
 }
 
+async fn single_page_application(req: HttpRequest) -> Result<fs::NamedFile> {
+    let path: PathBuf = PathBuf::from("./dist/index.html");
+
+    Ok(fs::NamedFile::open(path)?)
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
@@ -56,20 +58,18 @@ async fn main() -> std::io::Result<()> {
     // start chat server actor
     let server = server::ChatServer::new(app_state.clone()).start();
 
-    log::info!("starting HTTP server at http://localhost:8080");
+    log::info!("starting HTTP server at http://localhost:5000");
 
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::from(app_state.clone()))
             .app_data(web::Data::new(server.clone()))
-            .service(web::resource("/").to(index))
             .route("/count", web::get().to(get_count))
             .route("/ws", web::get().to(chat_route))
-            .service(Files::new("/static", "./static"))
             .wrap(Logger::default())
     })
     .workers(2)
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 5000))?
     .run()
     .await
 }
