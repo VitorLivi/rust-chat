@@ -8,9 +8,9 @@ export const MessageLayout = styled.div<MessageLayoutProps>`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-width: 80%;
   position: relative;
   align-self: ${props => props.fromMe ? 'flex-end' : 'flex-start'};
-  width: max-content;
   padding: 20px;
   border: solid 1px #0ef002;
 

@@ -1,28 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ChatDashboardLayout } from './styles'
 import { Message } from '../../../components/Message'
+import { ChatContext } from '../../../context/ChatContext'
 
-export const ChatDashboard: React.FC = () => {
+interface ChatDashboardProps {
+  username: string
+}
 
-  const messages = [
-    {
-      fromMe: false,
-      text: 'Hello, i am fine, and you?',
-      username: 'Me'
-    },
-    {
-      fromMe: true,
-      text: 'Hello, how are you?',
-      username: 'Jhon Doe'
-    },
-  ]
+export const ChatDashboard: React.FC<ChatDashboardProps> = ({ username }) => {
+  const { messages } = useContext(ChatContext)
 
   const getMessages = () => {
-    return messages.map((message) => {
+    return messages.map((message, index) => {
       return (
         <Message
-          fromMe={message.fromMe}
-          text={message.text}
+          key={index}
+          fromMe={message.username === username}
+          text={message.message}
           username={message.username}
         />
       )

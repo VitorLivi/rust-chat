@@ -20,7 +20,7 @@ export const LoginContainer = styled.div`
 
 export const LoginButton = styled.button`
   background-color: black;
-  color: white;
+  color: #0ef002;
   border: 1px solid #0ef002;
   transition: 0.2s;
 

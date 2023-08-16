@@ -9,6 +9,7 @@ export const ChatLayout = styled.div`
 
 export const ChatContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   width: 100%;
   padding: 20px;

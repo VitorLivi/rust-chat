@@ -1,11 +1,43 @@
-import React from 'react';
+import React, { KeyboardEventHandler, useContext } from 'react';
 import { ChatManagerLayout, ChatManagerTextArea } from './styles';
+import { ChatContext } from '../../../context/ChatContext';
 
-export const ChatManager: React.FC = () => {
+interface ChatManagerProps {
+  username: string
+}
+
+export const ChatManager: React.FC<ChatManagerProps> = ({ username }) => {
+  const [message, setMessage] = React.useState<string>('')
+  const { sendMessage } = useContext(ChatContext)
+
+  const onClickSend = () => {
+    const jsonMessage = {
+      message,
+      username,
+    }
+
+    sendMessage(jsonMessage)
+  }
+
+  const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.key === 'Enter') {
+      onClickSend()
+      setMessage('')
+      e.stopPropagation()
+      e.preventDefault()
+    }
+  }
+
   return (
     <ChatManagerLayout>
-      <ChatManagerTextArea placeholder="Envie uma mensagem..." />
-      <button>Enviar</button>
+      <ChatManagerTextArea
+        maxLength={200}
+        value={message}
+        onKeyDown={onKeyDown}
+        placeholder="Envie uma mensagem..."
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button onClick={onClickSend}>Enviar</button>
     </ChatManagerLayout>
   );
 }

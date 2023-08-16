@@ -2,7 +2,6 @@ import React from 'react'
 import { LoginButton, LoginContainer, LoginForm, LoginLayout } from './styles'
 import { Matrix } from '../../layouts/Matrix'
 import { useNavigate } from 'react-router'
-import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket'
 
 export const Login = () => {
   const [username, setUsername] = React.useState('')
