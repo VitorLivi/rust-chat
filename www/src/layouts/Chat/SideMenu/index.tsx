@@ -1,11 +1,12 @@
-import React, { MouseEventHandler, useContext, useEffect } from 'react';
-import { SideMenuLayout } from './styles';
+import React, { useContext } from 'react';
+import { MenuArrow, SideMenuLayout } from './styles';
 import { MenuItem } from '../../../components/MenuItem';
 import { ChatContext } from '../../../context/ChatContext';
 
 export const SideMenu: React.FC = () => {
   const { joinRoom, cleanMessages } = useContext(ChatContext)
   const [selected, setSelected] = React.useState<number>()
+  const [open, setOpen] = React.useState<boolean>(true)
 
   const rooms = [
     {
@@ -44,14 +45,9 @@ export const SideMenu: React.FC = () => {
 
   const onClickMenuItem = (index: number) => {
     setSelected(index)
+    joinRoom(rooms[index].id)
     cleanMessages()
   }
-
-  useEffect(() => {
-    if (selected !== undefined) {
-      joinRoom(rooms[selected].id)
-    }
-  }, [selected])
 
   const getRooms = () => {
     return rooms.map((room, index) => {
@@ -66,8 +62,25 @@ export const SideMenu: React.FC = () => {
     })
   }
 
+  const onClickArrow = () => {
+    setOpen(!open)
+  }
+
+  const getArrow = () => {
+    if (open) {
+      return (
+        <MenuArrow onClick={onClickArrow}>{'<'} </MenuArrow>
+      )
+    }
+
+    return (
+      <MenuArrow onClick={onClickArrow}>{'>'}</MenuArrow>
+    )
+  }
+
   return (
-    <SideMenuLayout>
+    <SideMenuLayout open={open}>
+      {getArrow()}
       {getRooms()}
     </SideMenuLayout>
   );

@@ -2,14 +2,18 @@ import React from 'react'
 import { LoginButton, LoginContainer, LoginForm, LoginLayout } from './styles'
 import { Matrix } from '../../layouts/Matrix'
 import { useNavigate } from 'react-router'
+import { v4 as uuid } from 'uuid'
 
 export const Login = () => {
   const [username, setUsername] = React.useState('')
-
   const navigate = useNavigate()
 
   const handleLogin = () => {
-    navigate('/chat', { state: { username } })
+    const newUuid = uuid()
+
+    navigate('/chat', { state: { username, uuid: newUuid } })
+    window.localStorage.setItem('rustchat-username', username)
+    window.localStorage.setItem('rustchat-uuid', newUuid)
   }
 
   return (

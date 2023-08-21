@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ChatDashboardLayout } from './styles'
 import { Message } from '../../../components/Message'
 import { ChatContext } from '../../../context/ChatContext'
@@ -9,6 +9,13 @@ interface ChatDashboardProps {
 
 export const ChatDashboard: React.FC<ChatDashboardProps> = ({ username }) => {
   const { messages } = useContext(ChatContext)
+  const chatDashboardRef = React.useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (chatDashboardRef.current) {
+      chatDashboardRef.current.scrollTop = chatDashboardRef.current.scrollHeight
+    }
+  }, [messages.length])
 
   const getMessages = () => {
     return messages.map((message, index) => {
@@ -24,7 +31,7 @@ export const ChatDashboard: React.FC<ChatDashboardProps> = ({ username }) => {
   }
 
   return (
-    <ChatDashboardLayout>
+    <ChatDashboardLayout ref={chatDashboardRef}>
       {getMessages()}
     </ChatDashboardLayout>
   )

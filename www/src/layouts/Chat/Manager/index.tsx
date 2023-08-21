@@ -11,18 +11,28 @@ export const ChatManager: React.FC<ChatManagerProps> = ({ username }) => {
   const { sendMessage } = useContext(ChatContext)
 
   const onClickSend = () => {
+    const isMessageValid = validateMessage()
+
+    if (!isMessageValid) {
+      return
+    }
+
     const jsonMessage = {
       message,
       username,
     }
 
     sendMessage(jsonMessage)
+    setMessage('')
+  }
+
+  const validateMessage = () => {
+    return message.length > 0
   }
 
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter') {
       onClickSend()
-      setMessage('')
       e.stopPropagation()
       e.preventDefault()
     }

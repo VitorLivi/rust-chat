@@ -11,28 +11,28 @@ export const Chat: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
+  const userName = location?.state?.username ?? window.localStorage.getItem('rustchat-username')
+
   useEffect(() => {
-    if (!location.state.username) {
+    const storedUsername = window.localStorage.getItem('rustchat-username')
+
+    if (!location?.state?.username && !storedUsername) {
       navigate('/')
     }
-  }, [location.state.username])
+  }, [location.state])
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%'
-      }}>
+    <>
       <Navbar />
       <ChatLayout>
         <ChatProvider>
           <SideMenu />
           <ChatContainer>
-            <ChatDashboard username={location.state.username} />
-            <ChatManager username={location.state.username} />
+            <ChatDashboard username={userName ?? ''} />
+            <ChatManager username={userName ?? ''} />
           </ChatContainer>
         </ChatProvider>
       </ChatLayout>
-    </div>
+    </>
   );
 }

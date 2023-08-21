@@ -19,7 +19,7 @@ export const MenuItem: React.FC<MenuiItemProps> = ({ text, selected, onClick }) 
   }
 
   return (
-    <MenuItemLayout onClick={onClick}>
+    <MenuItemLayout className="menu-item" onClick={onClick}>
       {getSelectedArrow()}
       <MenuItemText>{text ?? 'Item'}</MenuItemText>
     </MenuItemLayout>

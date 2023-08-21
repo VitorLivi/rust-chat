@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 
 export const ChatLayout = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: calc(100% - 80px);
   gap: 20px;
 `
 
