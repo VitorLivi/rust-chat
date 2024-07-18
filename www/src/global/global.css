@@ -2,6 +2,7 @@
 @font-face {
     font-family: 'font1';
     src:url('../assets/font1.ttf.woff');
+    font-display: swap;
 }
 
 * {

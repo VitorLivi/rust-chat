@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: VitorLivi/rust-chat
+spec:
+  selector:
+    matchLabels:
+      app: VitorLivi/rust-chat
+  template:
+    metadata:
+      labels:
+        app: VitorLivi/rust-chat
+    spec:
+      containers:
+      - name: VitorLivi/rust-chat
+        image: VitorLivi/rust-chat
+        ports:
+        - containerPort: 8080

@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router"
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket"
 
 interface PropsChatContext {
@@ -22,6 +23,7 @@ export interface Message {
 const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const [messages, setMessages] = useState<Message[]>([])
   const WS_URL = 'wss://rustchat-api.vitorlivi.online/ws'
+  const navigate = useNavigate()
 
   const joinRoom = (room: string) => {
     sendMessage(`/join ${room}`)
@@ -42,7 +44,7 @@ const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     setMessages([])
   }
 
-  const { sendMessage, sendJsonMessage } = useWebSocket(WS_URL, {
+  const { sendMessage, sendJsonMessage, readyState } = useWebSocket(WS_URL, {
     onOpen: () => {
       console.log('WebSocket connection established.');
     },
@@ -61,7 +63,13 @@ const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
       } catch (error) {
         console.log(message)
       }
-    }
+    },
+    onError: () => {
+      navigate('/')
+    },
+    onReconnectStop: () => {
+      navigate('/')
+    },
   });
 
   return (

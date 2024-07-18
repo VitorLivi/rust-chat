@@ -7,6 +7,7 @@ interface MessageLayoutProps {
 export const MessageLayout = styled.div<MessageLayoutProps>`
   display: flex;
   flex-direction: column;
+  word-wrap: break-word;
   gap: 10px;
   max-width: 80%;
   position: relative;

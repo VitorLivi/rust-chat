@@ -12,7 +12,11 @@ export const ChatContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - 340px);
   padding: 20px;
   gap: 50px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `
